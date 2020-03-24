@@ -46,6 +46,15 @@
     <ClInclude Include="texture.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="world.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="builder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="log.txt">

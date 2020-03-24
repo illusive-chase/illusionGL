@@ -11,6 +11,8 @@ namespace illusion {
 	private:
 		unsigned uid;
 		bool valid;
+		texture(const texture&) = default;
+
 	public:
 		texture(unsigned wrap_method = GL_REPEAT,
 				unsigned min_filter = GL_LINEAR_MIPMAP_LINEAR,
@@ -28,16 +30,17 @@ namespace illusion {
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			}
 		}
-		texture(const texture&) = delete;
-
+		texture(texture&& rhs) noexcept :texture(rhs) { rhs.valid = false; }
 		bool fail() const { return !valid; }
 		inline unsigned id() const { return uid; }
 		~texture() { if (valid) glDeleteTextures(1, &uid); }
 
 		bool load(const char* path, bool minmap = true) const {
 			int width, height, nr_channels;
+			glActiveTexture(GL_TEXTURE15);
+			glBindTexture(GL_TEXTURE_2D, uid);
 			stb_extension::stbi_set_flip_vertically_on_load(true);
-			unsigned char* data = stb_extension::stbi_load(path, &width, &height, &nr_channels, 0);
+			unsigned char* data = stb_extension::stbi_load(path, &width, &height, &nr_channels, 3);
 			if (data) {
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 				if (minmap) glGenerateMipmap(GL_TEXTURE_2D);

@@ -43,46 +43,14 @@ namespace illusion {
 		unsigned uid;
 		bool valid;
 		mutable std::unordered_map<const char*, GLint> mp;
-		std::vector<float> vertices;
-		std::vector<unsigned> indices;
-		unsigned VAO, VBO, EBO;
-		unsigned max_vertice_num;
 
 		static unsigned& active() { static unsigned g_active = ~0; return g_active; }
-		void load() {
-			glBindVertexArray(VAO);
-			glBindBuffer(GL_ARRAY_BUFFER, VBO);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.size(), indices.data(), GL_STATIC_DRAW);
-
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(0));
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-			glEnableVertexAttribArray(0);
-			glEnableVertexAttribArray(1);
-			vertices.clear();
-			indices.clear();
-		}
-		inline void apply() const {
-			if (active() != uid) {
-				glUseProgram(uid);
-				active() = uid;
-			}
-		}
+		
 
 	public:
-		program() :uid(glCreateProgram()), valid(true), VAO(~0), VBO(~0), EBO(~0), max_vertice_num(0) {
-			glGenVertexArrays(1, &VAO);
-			glGenBuffers(1, &VBO);
-			glGenBuffers(1, &EBO);
-		}
+		program() :uid(glCreateProgram()), valid(true) {}
 		program(const program&) = delete;
-		~program() { 
-			if (valid) glDeleteProgram(uid);
-			glDeleteBuffers(1, &VBO);
-			glDeleteBuffers(1, &EBO);
-			glDeleteVertexArrays(1, &VAO);
-		}
+		~program() { if (valid) glDeleteProgram(uid); }
 		inline unsigned id() const { return uid; }
 		bool fail() const { return !valid; }
 
@@ -103,11 +71,11 @@ namespace illusion {
 			return success;
 		}
 
-		inline void paint() {
-			apply();
-			if (vertices.size()) load();
-			glBindVertexArray(VAO);
-			glDrawElements(GL_TRIANGLES, max_vertice_num, GL_UNSIGNED_INT, 0);
+		inline void apply() const {
+			if (active() != uid) {
+				glUseProgram(uid);
+				active() = uid;
+			}
 		}
 
 		inline GLint get_uniform_location(const char* name) const {
@@ -132,61 +100,6 @@ namespace illusion {
 			glUniformMatrix4fv(get_uniform_location(name), 1, GL_FALSE, glm::value_ptr(value));
 		}
 
-		void make_cube(float x, float y, float z, float length) {
-			constexpr float cube_v[] = {
-				0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
-				0.5f, 0.5f,-0.5f, 1.0f, 0.0f, 0.0f,
-				0.5f,-0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
-				0.5f, 0.5f,-0.5f, 1.0f, 0.0f, 0.0f,
-				0.5f,-0.5f,-0.5f, 1.0f, 0.0f, 0.0f,
-				0.5f,-0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
-			   -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-				0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-			   -0.5f,-0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-				0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-				0.5f,-0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-			   -0.5f,-0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-			   -0.5f, 0.5f,-0.5f,-1.0f, 0.0f, 0.0f,
-			   -0.5f, 0.5f, 0.5f,-1.0f, 0.0f, 0.0f,
-			   -0.5f,-0.5f,-0.5f,-1.0f, 0.0f, 0.0f,
-			   -0.5f, 0.5f, 0.5f,-1.0f, 0.0f, 0.0f,
-			   -0.5f,-0.5f, 0.5f,-1.0f, 0.0f, 0.0f,
-			   -0.5f,-0.5f,-0.5f,-1.0f, 0.0f, 0.0f,
-				0.5f, 0.5f,-0.5f, 0.0f, 0.0f,-1.0f,
-			   -0.5f, 0.5f,-0.5f, 0.0f, 0.0f,-1.0f,
-				0.5f,-0.5f,-0.5f, 0.0f, 0.0f,-1.0f,
-			   -0.5f, 0.5f,-0.5f, 0.0f, 0.0f,-1.0f,
-			   -0.5f,-0.5f,-0.5f, 0.0f, 0.0f,-1.0f,
-				0.5f,-0.5f,-0.5f, 0.0f, 0.0f,-1.0f,
-				0.5f,-0.5f, 0.5f, 0.0f,-1.0f, 0.0f,
-				0.5f,-0.5f,-0.5f, 0.0f,-1.0f, 0.0f,
-			   -0.5f,-0.5f, 0.5f, 0.0f,-1.0f, 0.0f,
-				0.5f,-0.5f,-0.5f, 0.0f,-1.0f, 0.0f,
-			   -0.5f,-0.5f,-0.5f, 0.0f,-1.0f, 0.0f,
-			   -0.5f,-0.5f, 0.5f, 0.0f,-1.0f, 0.0f,
-			   -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
-			   -0.5f, 0.5f,-0.5f, 0.0f, 1.0f, 0.0f,
-			    0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
-			   -0.5f, 0.5f,-0.5f, 0.0f, 1.0f, 0.0f,
-				0.5f, 0.5f,-0.5f, 0.0f, 1.0f, 0.0f,
-				0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f
-			};
-			constexpr int cube_i[] = {
-				0,1,2,3,4,5,
-				6,7,8,9,10,11,
-				12,13,14,15,16,17,
-				18,19,20,21,22,23,
-				24,25,26,27,28,29,
-				30,31,32,33,34,35
-			};
-			vertices.insert(vertices.end(), cube_v, cube_v + 216);
-			for (size_t i = vertices.size() - 216, len = vertices.size(); i < len; i += 6U) {
-				vertices[i] = vertices[i] * length + x;
-				vertices[i + 1U] = vertices[i + 1U] * length + y;
-				vertices[i + 2U] = vertices[i + 2U] * length + z;
-			}
-			indices.insert(indices.end(), cube_i, cube_i + 36);
-			max_vertice_num += 36;
-		}
+	
 	};
 }
