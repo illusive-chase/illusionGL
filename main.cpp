@@ -11,7 +11,7 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	
-	constexpr int screen_width = world::width, screen_height = world::height;
+	constexpr int screen_width = World::width, screen_height = World::height;
 	GLFWwindow* window = glfwCreateWindow(screen_width, screen_height, "LearnOpenGL", NULL, NULL);
 	if (window == NULL) {
 		std::cerr << "Failed to create GLFW window" << std::endl;
@@ -29,10 +29,12 @@ int main() {
 	glViewport(0, 0, screen_width, screen_height);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
-	world& w = world::instance();
+	World& w = World::instance();
 	if (w.fail()) return -1;
-	w.build_object(cube_builder(glm::vec3(0, 0, 0), 0.2f, "container2.png", "container2_specular.png"));
-	w.build_light(cube_builder(glm::vec3(0.5f, 0.5f, 0.5f), 0.2f));
+	//w.build_object(CubeBuilder(glm::vec3(0, 0, 0), 0.2f, "container2.png", "container2_specular.png"));
+	w.build_model("C:/Users/illusion/Desktop/3dmax/robot/nanosuit.obj", 0.04f);
+	//w.build_spot_light(CubeBuilder(glm::vec3(0.5f, 0.5f, 0.5f), 0.2f), SpotLight(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(-1, -1, -1)));
+	w.build_dir_light(DirLight(glm::vec3(-1, -1, -1)));
 	w.mainloop(window);
 	glfwTerminate();
 

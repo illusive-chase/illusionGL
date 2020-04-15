@@ -5,14 +5,14 @@
 
 namespace illusion {
 
-	class shader {
+	class Shader {
 	private:
 		unsigned uid;
 		bool valid;
 	public:
-		shader() :uid(~0), valid(false) {}
-		shader(const shader& rhs) = delete;
-		shader(GLenum type, const char* path) :uid(glCreateShader(type)), valid(false) {
+		Shader() :uid(~0), valid(false) {}
+		Shader(const Shader& rhs) = delete;
+		Shader(GLenum type, const char* path) :uid(glCreateShader(type)), valid(false) {
 			std::ifstream fr(path, std::ios::in);
 			if (fr) {
 				std::basic_string<GLchar> str = std::basic_string<GLchar>(std::istreambuf_iterator<GLchar>(fr),
@@ -33,12 +33,12 @@ namespace illusion {
 			} else std::cerr << "ERROR::READER::FILE_READING_FAILED\n" << std::endl;
 		}
 
-		~shader() { if (valid) glDeleteShader(uid); }
+		~Shader() { if (valid) glDeleteShader(uid); }
 		inline unsigned id() const { return uid; }
 		bool fail() const { return !valid; }
 	};
 
-	class program {
+	class Program {
 	private:
 		unsigned uid;
 		bool valid;
@@ -48,16 +48,16 @@ namespace illusion {
 		
 
 	public:
-		program() :uid(glCreateProgram()), valid(true) {}
-		program(const program&) = delete;
-		~program() { if (valid) glDeleteProgram(uid); }
+		Program() :uid(glCreateProgram()), valid(true) {}
+		Program(const Program&) = delete;
+		~Program() { if (valid) glDeleteProgram(uid); }
 		inline unsigned id() const { return uid; }
 		bool fail() const { return !valid; }
 
 		template<typename ...T>
 		bool link(T&&... args) const {
 			unsigned arg_list[sizeof...(args)];
-			fill_with_return<unsigned, T&& ...>()(&shader::id, arg_list, args...);
+			fill_with_return<unsigned, T&& ...>()(&Shader::id, arg_list, args...);
 			for (unsigned i = 0; i < sizeof...(args); ++i) glAttachShader(uid, arg_list[i]);
 			int success = 0;
 			glLinkProgram(uid);

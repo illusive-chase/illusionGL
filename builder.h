@@ -3,21 +3,26 @@
 
 namespace illusion {
 
-	struct basic_builder {
-		std::vector<vertex> vertices;
+	struct BasicBuilder {
+		std::vector<Vertex> vertices;
 		std::vector<unsigned> indices;
 		const char* diffuse, * specular;
 		glm::mat4 model;
-		basic_builder(const char* diffuse, const char* specular)
+		BasicBuilder(const char* diffuse, const char* specular)
 			:diffuse(diffuse), specular(specular), model(glm::mat4(1.0f)) {}
 		virtual void build() = 0;
 	};
 
-	struct cube_builder : public basic_builder {
-		cube_builder(const glm::vec3& pos, float size, const char* diffuse = nullptr) :basic_builder(diffuse, diffuse) {
+	struct NoneBuilder : public BasicBuilder {
+		NoneBuilder() :BasicBuilder(nullptr, nullptr) {}
+		void build() {}
+	};
+
+	struct CubeBuilder : public BasicBuilder {
+		CubeBuilder(const glm::vec3& pos, float size, const char* diffuse = nullptr) :BasicBuilder(diffuse, diffuse) {
 			model = glm::translate(glm::scale(model, glm::vec3(size)), pos / size);
 		}
-		cube_builder(const glm::vec3& pos, float size, const char* diffuse, const char* specular) : basic_builder(diffuse, specular) {
+		CubeBuilder(const glm::vec3& pos, float size, const char* diffuse, const char* specular) : BasicBuilder(diffuse, specular) {
 			model = glm::translate(glm::scale(model, glm::vec3(size)), pos / size);
 		}
 
@@ -68,8 +73,10 @@ namespace illusion {
 				-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
 				-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
 			};
-			vertices = std::vector<vertex>(reinterpret_cast<const vertex*>(cube_v), 
-										   reinterpret_cast<const vertex*>(cube_v + (sizeof(cube_v) / sizeof(float))));
+			vertices = std::vector<Vertex>(reinterpret_cast<const Vertex*>(cube_v), 
+										   reinterpret_cast<const Vertex*>(cube_v + (sizeof(cube_v) / sizeof(float))));
 		}
 	};
+
+	
 }

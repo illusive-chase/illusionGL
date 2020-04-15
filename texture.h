@@ -1,4 +1,5 @@
 #pragma once
+#include <stdio.h>
 #include "basic.h"
 
 namespace illusion {
@@ -7,14 +8,14 @@ namespace illusion {
 #include "stb_image.h"
 	}
 
-	class texture {
+	class Texture {
 	private:
 		unsigned uid;
 		bool valid;
-		texture(const texture&) = default;
+		Texture(const Texture&) = default;
 
 	public:
-		texture(unsigned wrap_method = GL_REPEAT,
+		Texture(unsigned wrap_method = GL_REPEAT,
 				unsigned min_filter = GL_LINEAR_MIPMAP_LINEAR,
 				unsigned max_filter = GL_LINEAR) 
 			:uid(~0), valid(false) 
@@ -30,10 +31,10 @@ namespace illusion {
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			}
 		}
-		texture(texture&& rhs) noexcept :texture(rhs) { rhs.valid = false; }
+		Texture(Texture&& rhs) noexcept :Texture(rhs) { rhs.valid = false; }
 		bool fail() const { return !valid; }
 		inline unsigned id() const { return uid; }
-		~texture() { if (valid) glDeleteTextures(1, &uid); }
+		~Texture() { if (valid) glDeleteTextures(1, &uid); }
 
 		bool load(const char* path, bool minmap = true) const {
 			int width, height, nr_channels;
