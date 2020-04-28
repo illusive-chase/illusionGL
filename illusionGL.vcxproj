@@ -18,6 +18,35 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="include\glad\glad.c" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\basic.h" />
+    <ClInclude Include="include\builder.h" />
+    <ClInclude Include="include\light.h" />
+    <ClInclude Include="include\mesh.h" />
+    <ClInclude Include="include\shader.h" />
+    <ClInclude Include="include\stb_image.h" />
+    <ClInclude Include="include\texture.h" />
+    <ClInclude Include="include\tmp.h" />
+    <ClInclude Include="include\world.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\general.vs" />
+    <None Include="shader\object_rsm.fs" />
+    <None Include="shader\general_shadow.vs" />
+    <None Include="shader\light.fs" />
+    <None Include="shader\object.fs" />
+    <None Include="shader\object_shadow.fs" />
+    <None Include="shader\rsm.fs" />
+    <None Include="shader\rsm.gs" />
+    <None Include="shader\rsm.vs" />
+    <None Include="shader\shadow.fs" />
+    <None Include="shader\shadow.gs" />
+    <None Include="shader\shadow.vs" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{C74D753A-6E85-401C-8DD4-72299C2A522D}</ProjectGuid>
@@ -70,12 +99,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\illusion\Desktop\Cpp\open source\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\illusion\Desktop\Cpp\open source\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\illusion\Desktop\Cpp\illusionGL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\illusion\Desktop\Cpp\illusionGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\illusion\Desktop\Cpp\open source\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\illusion\Desktop\Cpp\open source\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\illusion\Desktop\Cpp\illusionGL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\illusion\Desktop\Cpp\illusionGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -135,28 +164,6 @@
       <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\open source\glfw-3.3.2.bin.WIN64\include\glad\glad.c" />
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="object.fs" />
-    <None Include="light.fs" />
-    <None Include="general.vs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="basic.h" />
-    <ClInclude Include="builder.h" />
-    <ClInclude Include="light.h" />
-    <ClInclude Include="mesh.h" />
-    <ClInclude Include="shader.h" />
-    <ClInclude Include="texture.h" />
-    <ClInclude Include="tmp.h" />
-    <ClInclude Include="world.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="log.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -18,50 +18,75 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\open source\glfw-3.3.2.bin.WIN64\include\glad\glad.c">
+    <ClCompile Include="include\glad\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="light.fs">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="object.fs">
-      <Filter>资源文件</Filter>
-    </None>
-    <None Include="general.vs">
-      <Filter>资源文件</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="tmp.h">
+    <ClInclude Include="include\basic.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="basic.h">
+    <ClInclude Include="include\builder.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="shader.h">
+    <ClInclude Include="include\light.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="texture.h">
+    <ClInclude Include="include\mesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="world.h">
+    <ClInclude Include="include\shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="mesh.h">
+    <ClInclude Include="include\stb_image.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="builder.h">
+    <ClInclude Include="include\texture.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="light.h">
+    <ClInclude Include="include\tmp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\world.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="log.txt">
+    <None Include="shader\general.vs">
       <Filter>资源文件</Filter>
-    </Text>
+    </None>
+    <None Include="shader\general_shadow.vs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\light.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\object.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\object_shadow.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\shadow.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\shadow.vs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\object_rsm.fs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\shadow.gs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\rsm.vs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\rsm.gs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="shader\rsm.fs">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>
